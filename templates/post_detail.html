@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="post-entry">
+        <h2>{{ post.title }}</h2>
+        <p>by {{ post.author }} | {{ post.date }}</p>
+        <br/>
+        <p>{{ post.body }}</p>
+        <a href="{% url 'post_edit' post.pk %}">+ Edit This Chika</a>
+        <a href="{% url 'post_delete' post.pk %}">Delete This Chika</a>
+    </div>
+    <h3>Comments:</h3>
+    <hr>
+    {% if user.is_authenticated %}
+        <form method="POST">
+            {% csrf_token %}
+            {{ comment_form }}
+            <button class="btn btn-info" type="submit">Add</button>
+        </form>
+    {% endif %}
+    <div class="card-footer">
+        {% for comment in comments %}
+            <p>
+                <span class="font-weight-bold"><b>{{ comment.author.get_full_name }}</b></span> <br/>
+                {{comment.comment}}
+                <br />
+                {% if user.is_authenticated %}
+                    <a href="{% url 'edit_comment' comment.pk %}">Edit</a> | <a href="{% url 'delete_comment' comment.pk %}">Delete</a>
+                {% endif %}
+            </p>
+        {% endfor %}
+    </div>    
+{% endblock content %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Latest Chikas:</h1>
+    {% for post in object_list %}
+        <div class="post-entry">
+            <h2><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></h2>
+            <p>by {{ post.author }} | Published: {{ post.date }}</p>
+        </div>
+    {% endfor %}
+{% endblock content %}
